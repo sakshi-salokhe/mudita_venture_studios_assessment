@@ -16,12 +16,14 @@
 // const app = express();
 // const port = 3000;
 import express from "express";
+import dotenv from "dotenv"
 import path from "path";
 import { fileURLToPath } from 'url';
 
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Serve static files from the 'dist' directory
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
@@ -39,5 +41,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+    console.log(`Server listening on port ${PORT}`);
 });
