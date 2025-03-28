@@ -5,13 +5,15 @@
                 Suggested Schedule
             </div>
 
-            <button 
-                class="download-button" 
+            <JsonCSV
+                :class="[disableDownloadBtn ? 'download-button download-button-disabled' : 'download-button']"
+                :data   = "suggestedSchedule"
                 :disabled="disableDownloadBtn"
-                @click="download"
-            >
-                Download Schedule
-            </button>
+                name    = "filename.csv">
+
+                Download as CSV
+
+            </JsonCSV>
         </div>
 
         <div class="right-form-body">
@@ -34,11 +36,13 @@
 
 <script>
 import EachScheduleItem from './EachScheduleItem.vue';
+import JsonCSV from 'vue-json-csv'
 
 export default {
     name: 'RightCol',
     components: {
-        EachScheduleItem
+        EachScheduleItem,
+        JsonCSV
     },
     props: {
         suggestedSchedule: {
@@ -48,14 +52,9 @@ export default {
     },
     computed: {
         disableDownloadBtn() {
-            return true;
+            return !this.suggestedSchedule.length;
         }
     },
-    methods: {
-        download() {
-            console.log("dl")
-        }
-    }
 }
 </script>
 
@@ -107,13 +106,14 @@ export default {
 
         color: #f2f2f2;
         text-transform: uppercase;
+        font-size: 0.7vw;
         font-weight: 700;
         cursor: pointer;
     }
-    .download-button:disabled {
-        background-color: #575c62;
-        border: 1px solid #575c62;
-        cursor: not-allowed;
+    .download-button-disabled {
+        background-color: #575c62 !important;
+        border: 1px solid #575c62 !important;;
+        cursor: not-allowed !important;;
     }
 
     .right-form-body {
