@@ -19,6 +19,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
+function sortArrayByTime(items) {
+    return items.sort((a, b) => {
+      const timeA = parseTime(a.time);
+      const timeB = parseTime(b.time);
+      return timeA - timeB;
+    });
+  }
+  
+  function parseTime(timeString) {
+    const [time, modifier] = timeString.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (hours === '12') {
+      hours = modifier.toLowerCase() === 'am' ? '0' : hours;
+    } else {
+      hours = modifier.toLowerCase() === 'pm' ? parseInt(hours, 10) + 12 : hours;
+    }
+    return parseInt(hours, 10) * 60 + parseInt(minutes, 10);
+  }
+
 function convertStringToJson(dataString) {
     try {
       const jsonStartIndex = dataString.indexOf('{');
@@ -34,8 +53,15 @@ function convertStringToJson(dataString) {
       const jsonString = dataString.substring(jsonStartIndex, jsonEndIndex+1);
       const jsonStringWithoutTags = jsonString.replace(/\n/g, "")
       const jsonObject = JSON.parse(jsonStringWithoutTags);
+
+      const sortedActivities = sortArrayByTime(jsonObject["activity_order"]);
+
+      const sortedJsonObject = {
+        "activity_order": sortedActivities
+      };
+
   
-      return jsonObject;
+      return sortedJsonObject;
     } catch (error) {
       console.error("Error parsing JSON:", error.message);
       return null;
