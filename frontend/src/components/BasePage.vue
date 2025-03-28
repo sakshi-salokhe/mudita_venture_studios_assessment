@@ -5,14 +5,21 @@
         </div>
 
         <div class="base-body">
-            
+            <div class="each-child">
+                <LeftForm />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import LeftForm from './LeftForm.vue';
+
 export default {
-    name: 'BasePage'
+    name: 'BasePage',
+    components: {
+        LeftForm
+    }
 }
 </script>
 
@@ -44,6 +51,10 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        border: 1px solid red;
+    }
+
+    .each-child {
+        width: 45%;
+        height: 100%;
     }
 </style>
