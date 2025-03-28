@@ -33,6 +33,7 @@
                     v-for="activity in allActivities" 
                     :key="activity"
                     :displayMessage="activity"
+                    @delete-activity="deleteActivity(activity)"
                 />
             </div>
         </div>
@@ -65,6 +66,9 @@ export default {
         addActivityText() {
             this.allActivities.push(this.activityText);
             this.activityText = '';
+        },
+        deleteActivity(activity) {
+            this.allActivities = this.allActivities.filter((item) => item !== activity);
         }
     }
 }

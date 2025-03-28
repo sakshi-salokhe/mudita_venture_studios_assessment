@@ -4,7 +4,7 @@
             {{displayMessage}}
         </div>
 
-        <button class="delete-button">
+        <button class="delete-button" @click="deleteActivity">
             Delete
         </button>
     </div>
@@ -17,6 +17,12 @@ export default {
         displayMessage: {
             type: String,
             required: true
+        }
+    },
+    emits: ['delete-activity'],
+    methods: {
+        deleteActivity() {
+            this.$emit('delete-activity');
         }
     }
 }
