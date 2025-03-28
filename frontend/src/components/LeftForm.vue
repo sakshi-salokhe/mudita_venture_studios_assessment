@@ -5,15 +5,27 @@
                 Enter activity details
             </div>
 
-            <button class="create-schedule-button" >
+            <button 
+                class="create-schedule-button" 
+                :disabled="disableCreateScheduleBtn"
+            >
                 Create Schedule
             </button>
         </div>
 
         <div class="left-form-body">
             <div class="input-wrapper">
-                <textarea rows="5" placeholder="Add activity here" />
-                <button class="add-button">Add</button>
+                <textarea 
+                    rows="5" placeholder="Add activity here" 
+                    v-model="activityText"
+                />
+                <button 
+                    class="add-button" 
+                    :disabled="disableAddBtn"
+                    @click="addActivityText"
+                >
+                    Add
+                </button>
             </div>
 
             <div class="items-body">
@@ -25,7 +37,27 @@
 
 <script>
 export default {
-    name: 'LeftForm'
+    name: 'LeftForm',
+    data() {
+        return {
+            activityText: '',
+            allActivities: [],
+        }
+    },
+    computed: {
+        disableAddBtn() {
+            return this.activityText.trim() === ''
+        },
+        disableCreateScheduleBtn() {
+            return !this.allActivities.length;
+        }
+    },
+    methods: {
+        addActivityText() {
+            this.allActivities.push(this.activityText);
+            this.activityText = '';
+        }
+    }
 }
 </script>
 
@@ -78,10 +110,12 @@ export default {
         color: #f2f2f2;
         text-transform: uppercase;
         font-weight: 700;
+        cursor: pointer;
     }
     .create-schedule-button:disabled {
         background-color: #575c62;
         border: 1px solid #575c62;
+        cursor: not-allowed;
     }
 
     .left-form-body {
@@ -128,10 +162,12 @@ export default {
         color: #f2f2f2;
         text-transform: uppercase;
         font-weight: 700;
+        cursor: pointer;
     }
     .add-button:disabled {
         background-color: #575c62;
         border: 1px solid #575c62;
+        cursor: not-allowed;
     }
 
     .items-body {
