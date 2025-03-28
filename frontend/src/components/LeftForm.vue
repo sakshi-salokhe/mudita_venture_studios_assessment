@@ -8,6 +8,7 @@
             <button 
                 class="create-schedule-button" 
                 :disabled="disableCreateScheduleBtn"
+                @click="createSchedule"
             >
                 Create Schedule
             </button>
@@ -42,6 +43,7 @@
 
 <script>
 import FormDisplayChip from './FormDisplayChip.vue';
+import axios from 'axios';
 
 export default {
     name: 'LeftForm',
@@ -52,8 +54,11 @@ export default {
         return {
             activityText: '',
             allActivities: [],
+            hasError: false,
+            isLoading: false
         }
     },
+    emits: ['schedule'],
     computed: {
         disableAddBtn() {
             return this.activityText.trim() === ''
@@ -64,11 +69,30 @@ export default {
     },
     methods: {
         addActivityText() {
+            this.hasError = false;
             this.allActivities.push(this.activityText);
             this.activityText = '';
         },
         deleteActivity(activity) {
+            this.hasError = false;
             this.allActivities = this.allActivities.filter((item) => item !== activity);
+        },
+        async createSchedule() {
+            this.isLoading = true;
+            try {
+                const response = await axios.post('/schedule-builder', {
+                    params: {
+                        scheduleItems: this.allActivities
+                    }
+                });
+
+                const finalSchedule = response.data.response.activity_order;
+                this.$emit('schedule', finalSchedule);
+            } catch (error) {
+                this.hasError = true;
+            } finally {
+                this.isLoading = false;
+            }
         }
     }
 }
