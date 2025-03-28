@@ -14,28 +14,33 @@
             </button>
         </div>
 
+        
         <div class="left-form-body">
-            <div class="input-wrapper">
-                <textarea 
-                    rows="5" placeholder="Add activity here" 
-                    v-model="activityText"
-                />
-                <button 
-                    class="add-button" 
-                    :disabled="disableAddBtn"
-                    @click="addActivityText"
-                >
-                    Add
-                </button>
-            </div>
+            <VueSpinner v-if="isLoading" size="50" color="#2c3e50" />
+            
+            <div class="form-body-wrapper" v-else>
+                <div class="input-wrapper">
+                    <textarea 
+                        rows="5" placeholder="Add activity here" 
+                        v-model="activityText"
+                    />
+                    <button 
+                        class="add-button" 
+                        :disabled="disableAddBtn"
+                        @click="addActivityText"
+                    >
+                        Add
+                    </button>
+                </div>
 
-            <div class="items-body">
-                <FormDisplayChip 
-                    v-for="activity in allActivities" 
-                    :key="activity"
-                    :displayMessage="activity"
-                    @delete-activity="deleteActivity(activity)"
-                />
+                <div class="items-body">
+                    <FormDisplayChip 
+                        v-for="activity in allActivities" 
+                        :key="activity"
+                        :displayMessage="activity"
+                        @delete-activity="deleteActivity(activity)"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -44,10 +49,12 @@
 <script>
 import FormDisplayChip from './FormDisplayChip.vue';
 import axios from 'axios';
+import { VueSpinner } from 'vue3-spinners';
 
 export default {
     name: 'LeftForm',
     components: {
+        VueSpinner,
         FormDisplayChip
     },
     data() {
@@ -162,8 +169,13 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        align-items: center;
     }
 
+    .form-body-wrapper {
+        height: 100%;
+        width: 100%;
+    }
     .input-wrapper {
         height: 9%;
         width: 97%;
