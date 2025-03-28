@@ -29,15 +29,24 @@
             </div>
 
             <div class="items-body">
-
+                <FormDisplayChip 
+                    v-for="activity in allActivities" 
+                    :key="activity"
+                    :displayMessage="activity"
+                />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import FormDisplayChip from './FormDisplayChip.vue';
+
 export default {
     name: 'LeftForm',
+    components: {
+        FormDisplayChip
+    },
     data() {
         return {
             activityText: '',
