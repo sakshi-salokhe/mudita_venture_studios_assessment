@@ -33,7 +33,6 @@ export default {
     },
     methods: {
         setSchedule(schedule) {
-            console.log("sch: ", schedule)
             this.suggestedSchedule = schedule;
         }
     }

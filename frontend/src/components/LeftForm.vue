@@ -93,9 +93,7 @@ export default {
             this.isLoading = true;
             try {
                 const response = await axios.post('/schedule-builder', {
-                    params: {
-                        scheduleItems: this.allActivities
-                    }
+                    scheduleItems: this.allActivities
                 });
 
                 const finalSchedule = response.data.response.activity_order;
