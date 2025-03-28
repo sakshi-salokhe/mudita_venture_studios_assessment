@@ -61,10 +61,10 @@ export default {
     emits: ['schedule'],
     computed: {
         disableAddBtn() {
-            return this.activityText.trim() === ''
+            return this.activityText.trim() === '' || this.isLoading;
         },
         disableCreateScheduleBtn() {
-            return !this.allActivities.length;
+            return !this.allActivities.length || this.isLoading;
         }
     },
     methods: {
