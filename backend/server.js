@@ -37,9 +37,10 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 app.post('/schedule-builder', async (req, res) => {
-    const {prompt} = req.body;
-    console.log("prompt: ", prompt)
-  
+    const { scheduleItems } = req.body;
+    
+    const prompt = `Rearrange these activities in the most ideal order with start time for current single day without overlap: ${scheduleItems} in the following format: {activity_order: [{activity_name: 'name of activity', time: 'start time of the day when it would be ideal for this activity to be done', reason: 'reason why this should be done at this order'}], additional_info: 'additional details on why the activities were rearranged a certain way'}. The final order should be in ascending order of first activity till the final activity in the day.`;
+
     try {
       const response = await ollama.chat({
         model: 'llama2',
