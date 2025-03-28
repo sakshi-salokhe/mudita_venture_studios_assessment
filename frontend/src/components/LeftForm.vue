@@ -22,6 +22,7 @@
                 <div class="input-wrapper">
                     <textarea 
                         rows="5" placeholder="Add activity here" 
+                        :disabled="isLoading"
                         v-model="activityText"
                     />
                     <button 
@@ -79,10 +80,14 @@ export default {
             this.hasError = false;
             this.allActivities.push(this.activityText);
             this.activityText = '';
+
+            this.$emit('schedule', []);
         },
         deleteActivity(activity) {
             this.hasError = false;
             this.allActivities = this.allActivities.filter((item) => item !== activity);
+
+            this.$emit('schedule', []);
         },
         async createSchedule() {
             this.isLoading = true;
